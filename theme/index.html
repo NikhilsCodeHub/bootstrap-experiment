@@ -180,6 +180,7 @@
                         <ul aria-expanded="false">
                             <li><a href="./index.html">Dashboard 1</a></li>
                             <li><a href="./index2.html">Dashboard 2</a></li>
+                            <li><a href="./index3.html">Dashboard 3</a></li>
                         </ul>
                     </li>
                     <li class="nav-label">Apps</li>
@@ -356,7 +357,114 @@
                     <!-- /# column -->
                 </div>
                 <div class="row">
-                    <div class="col-xl-8 col-lg-8 col-md-8">
+                    <div class="col-xl-3 col-lg-3 col-md-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">List Active Items</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Symbol</th>
+                                                <th>Price</th>
+                                                <th>Change</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr onclick="updateChart('NASDAQ:TSLA', this)">
+                                                <td>TSLA</td>
+                                                <td>245.25</td>
+                                                <td><span class="text-success">+2.25%</span></td>
+                                            </tr>
+                                            <tr onclick="updateChart('NASDAQ:NVDA', this)">
+                                                <td>NVDA</td>
+                                                <td>850.50</td>
+                                                <td><span class="text-success">+1.15%</span></td>
+                                            </tr>
+                                            <tr onclick="updateChart('NYSEARCA:SPY', this)">
+                                                <td>SPY</td>
+                                                <td>485.75</td>
+                                                <td><span class="text-danger">-0.35%</span></td>
+                                            </tr>
+                                            <tr onclick="updateChart('NASDAQ:MSFT', this)">
+                                                <td>MSFT</td>
+                                                <td>375.25</td>
+                                                <td><span class="text-success">+0.85%</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Stock Price Chart</h4>
+                            </div>
+                            <div class="card-body">
+                                <!-- TradingView Widget BEGIN -->
+                                <div class="tradingview-widget-container">
+                                    <div id="tradingview_chart"></div>
+                                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                                    <script type="text/javascript">
+                                    let currentSymbol = "NASDAQ:TSLA";
+                                    
+                                    function createWidget(symbol) {
+                                        new TradingView.widget({
+                                            "width": "100%",
+                                            "height": 400,
+                                            "symbol": symbol,
+                                            "interval": "D",
+                                            "timezone": "exchange",
+                                            "theme": "light",
+                                            "style": "1",
+                                            "locale": "en",
+                                            "toolbar_bg": "#f1f3f6",
+                                            "enable_publishing": false,
+                                            "allow_symbol_change": true,
+                                            "container_id": "tradingview_chart"
+                                        });
+                                    }
+
+                                    // Initialize with default symbol
+                                    createWidget(currentSymbol);
+
+                                    // Function to update chart symbol and highlight selected row
+                                    function updateChart(symbol, row) {
+                                        currentSymbol = symbol;
+                                        createWidget(symbol);
+                                        
+                                        // Remove highlight from all rows
+                                        document.querySelectorAll('.active-row').forEach(r => {
+                                            r.classList.remove('active-row');
+                                        });
+                                        
+                                        // Add highlight to selected row
+                                        row.classList.add('active-row');
+                                    }
+                                    </script>
+                                    <style>
+                                        .active-row {
+                                            background-color: #f8f9fa;
+                                            font-weight: bold;
+                                        }
+                                        .table tbody tr {
+                                            cursor: pointer;
+                                            transition: background-color 0.2s;
+                                        }
+                                        .table tbody tr:hover {
+                                            background-color: #f8f9fa;
+                                        }
+                                    </style>
+                                </div>
+                                <!-- TradingView Widget END -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Sales Overview</h4>
@@ -370,6 +478,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-xl-4 col-lg-4 col-md-4">
                         <div class="card">
                             <div class="card-body text-center">
